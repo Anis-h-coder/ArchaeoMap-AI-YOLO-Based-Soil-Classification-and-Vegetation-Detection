@@ -1,0 +1,20 @@
+# Flask and web server
+Flask==3.0.3
+Werkzeug==3.0.4
+
+# Computer vision and ML
+opencv-python==4.10.0.84
+torch==2.3.1
+torchvision==0.18.1
+ultralytics==8.3.3   # YOLOv8 (optional, can remove if not using YOLO)
+
+# Utilities and image handling
+numpy==1.26.4
+Pillow==10.4.0
+
+# PDF and reporting
+reportlab==4.2.2
+
+# Optional for development/debug
+tqdm==4.66.5
+matplotlib==3.9.2

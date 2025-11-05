@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1 class="text-4xl font-extrabold text-center text-emerald-700 drop-shadow-sm mb-8">
+  🌍 AI Image Detection
+</h1>
+
+
+<!-- 🌄 Background Animation -->
+<div class="absolute inset-0 -z-10 overflow-hidden">
+  <div class="sunlight"></div>
+  <div class="soft-hill"></div>
+  <div class="floating-leaf leaf1"></div>
+  <div class="floating-leaf leaf2"></div>
+  <div class="floating-leaf leaf3"></div>
+</div>
+
+<!-- 🧭 Centered Main Section -->
+<div class="min-h-[90vh] flex items-center justify-center px-10 animate-fadeIn">
+  <div class="grid md:grid-cols-2 gap-10 items-center max-w-6xl w-full bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl p-10 border border-green-100">
+
+    <!-- 🌿 LEFT SIDE: Upload Section -->
+    <div class="text-center">
+      <h2 class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-emerald-400 to-green-500 mb-6 drop-shadow-md">
+        🌱 Upload Image
+      </h2>
+
+      <form method="POST" enctype="multipart/form-data" id="uploadForm" class="space-y-6">
+        <div id="dropZone"
+             class="relative w-full border-2 border-dashed border-green-300 rounded-xl p-6 flex flex-col items-center justify-center bg-green-50 hover:bg-green-100 cursor-pointer transition group overflow-hidden">
+          <input type="file" name="file" accept="image/*" id="fileInput" class="absolute inset-0 opacity-0 cursor-pointer">
+
+          <!-- Image preview -->
+          <div class="relative w-full flex justify-center">
+            <img id="previewImage" class="hidden rounded-lg shadow-md max-h-60 object-contain transition-all duration-500 group-hover:scale-105"/>
+            <button type="button" id="removeImageBtn" class="hidden absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center shadow-md">
+              ✕
+            </button>
+          </div>
+
+          <!-- Placeholder text -->
+          <div id="placeholder" class="text-gray-600 font-medium">
+            📁 Drag & drop or click to upload your image
+          </div>
+
+          <p id="fileName" class="text-green-600 font-semibold mt-2 text-sm"></p>
+        </div>
+
+        <div class="flex justify-center">
+          <select name="kind"
+                  class="bg-blue-50 text-gray-800 border border-blue-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 font-medium">
+            <option value="vegetation">🌳 Vegetation Detection</option>
+            <option value="soil">🪴 Soil Detection</option>
+          </select>
+        </div>
+      </form>
+    </div>
+
+    <!-- ⚙️ RIGHT SIDE: Parameters + Analyze -->
+    <div class="space-y-8 animate-slideUp">
+      <h3 class="text-2xl font-bold text-emerald-600 mb-4">⚙️ Detection Parameters</h3>
+
+      <div>
+        <label class="block text-gray-700 font-semibold mb-2">
+          IoU Threshold: <span id="iouValue" class="text-blue-600 font-bold">0.5</span>
+        </label>
+        <input type="range" name="iou_threshold" min="0.1" max="1" step="0.05" value="0.5"
+               class="w-full accent-blue-500"
+               form="uploadForm"
+               oninput="document.getElementById('iouValue').innerText=this.value">
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-semibold mb-2">
+          Confidence Threshold: <span id="confValue" class="text-green-600 font-bold">0.4</span>
+        </label>
+        <input type="range" name="conf_threshold" min="0.1" max="1" step="0.05" value="0.4"
+               class="w-full accent-green-500"
+               form="uploadForm"
+               oninput="document.getElementById('confValue').innerText=this.value">
+      </div>
+
+      <div class="text-center mt-8">
+        <button type="submit" form="uploadForm"
+                class="px-10 py-3 bg-gradient-to-r from-green-400 to-blue-500 hover:from-blue-500 hover:to-green-400 text-white font-semibold rounded-2xl shadow-lg hover:scale-105 transition-all duration-300">
+          🌍 Analyze
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 🌿 Style Section -->
+<style>
+body {
+  overflow: hidden;
+  background: linear-gradient(180deg, #e9fff4 0%, #f5fffb 70%, #ffffff 100%);
+}
+
+/* 🌿 Hill */
+.soft-hill {
+  position: absolute;
+  bottom: 0;
+  width: 250%;
+  height: 200px;
+  left: -75%;
+  background: radial-gradient(circle at 50% 100%, #a7f3d0 10%, #6ee7b7 40%, #3b82f6 100%);
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+  animation: hillMove 20s linear infinite;
+}
+
+/* 🍃 Floating leaves */
+.floating-leaf {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: url('https://cdn-icons-png.flaticon.com/512/7662/7662038.png') no-repeat center/contain;
+  opacity: 0.7;
+}
+.leaf1 { top: 25%; left: 10%; animation: floatLeaf 14s ease-in-out infinite; }
+.leaf2 { top: 45%; right: 15%; animation: floatLeaf 18s ease-in-out infinite reverse; }
+.leaf3 { top: 65%; left: 60%; animation: floatLeaf 16s ease-in-out infinite; }
+
+/* ✨ Animations */
+@keyframes glow { from { opacity: 0.8; transform: scale(1); } to { opacity: 1; transform: scale(1.15); } }
+@keyframes hillMove { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes floatLeaf { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(20deg); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.animate-fadeIn { animation: fadeIn 1.2s ease-out; }
+@keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+.animate-slideUp { animation: slideUp 1.2s ease-in-out; }
+</style>
+
+<!-- 💡 JS for Preview + Delete -->
+<script>
+const fileInput = document.getElementById('fileInput');
+const previewImage = document.getElementById('previewImage');
+const placeholder = document.getElementById('placeholder');
+const fileName = document.getElementById('fileName');
+const removeBtn = document.getElementById('removeImageBtn');
+
+fileInput.addEventListener('change', function() {
+  const file = this.files[0];
+  if (file) {
+    fileName.innerText = file.name;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      previewImage.src = e.target.result;
+      previewImage.classList.remove('hidden');
+      placeholder.style.display = 'none';
+      removeBtn.classList.remove('hidden');
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+removeBtn.addEventListener('click', () => {
+  fileInput.value = '';
+  previewImage.src = '';
+  previewImage.classList.add('hidden');
+  placeholder.style.display = 'block';
+  removeBtn.classList.add('hidden');
+  fileName.innerText = '';
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- 🌄 Nature-Themed Background -->
+<div class="nature-bg">
+  <div class="sun"></div>
+  <div class="particle"></div>
+  <div class="particle delay1"></div>
+  <div class="particle delay2"></div>
+</div>
+
+<!-- 🌱 Main Content -->
+<div class="hero-section flex flex-col lg:flex-row items-center justify-between gap-10 max-w-7xl mx-auto px-6 relative z-10">
+  
+  <!-- LEFT SIDE -->
+  <div class="flex-1 space-y-6 animate-fadeIn">
+    <h1 class="text-5xl font-extrabold leading-tight text-gray-800 drop-shadow-sm">
+      Discover Hidden <span class="text-emerald-600">Patterns</span><br>in Ancient Landscapes
+    </h1>
+    <p class="text-gray-600 text-lg max-w-md">
+      Upload aerial imagery to reveal subtle soil and vegetation traces using AI-powered analysis.  
+      Track environmental changes and visualize landscape evolution with clarity.
+    </p>
+
+    <div class="flex gap-4 pt-2">
+      <a href="{{ url_for('upload') }}" 
+         class="px-8 py-3 bg-gradient-to-r from-emerald-400 to-green-500 text-white font-semibold rounded-xl shadow-lg hover:from-emerald-500 hover:to-green-600 hover:scale-105 transition-all duration-300">
+        🚀 Start Analysis
+      </a>
+
+      <a href="{{ url_for('compare') }}" 
+         class="px-6 py-3 border-2 border-emerald-400 text-emerald-700 rounded-xl hover:bg-emerald-50 font-semibold transition">
+        🧩 Compare Two
+      </a>
+    </div>
+
+    <div class="flex gap-8 pt-6">
+      <div class="text-center">
+        <div class="text-2xl font-bold text-emerald-600">98%</div>
+        <div class="text-xs text-gray-500">Model Confidence</div>
+      </div>
+      <div class="text-center">
+        <div class="text-2xl font-bold text-emerald-600">+200</div>
+        <div class="text-xs text-gray-500">Analyzed Regions</div>
+      </div>
+      <div class="text-center">
+        <div class="text-2xl font-bold text-emerald-600">24 h</div>
+        <div class="text-xs text-gray-500">Realtime Updates</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT SIDE -->
+  <div class="flex-1 relative animate-slideInRight">
+    <div class="card overflow-hidden rounded-2xl shadow-xl">
+      {% if latest_image %}
+        <img src="{{ url_for('static', filename='uploads/' + latest_image) }}" 
+             alt="Latest upload"
+             class="w-full h-[320px] object-cover rounded-lg transition-transform duration-700 hover:scale-105">
+      {% else %}
+        <div class="w-full h-[320px] flex items-center justify-center bg-gray-100 text-gray-400">
+          No recent image found
+        </div>
+      {% endif %}
+    </div>
+    {% if latest_image %}
+    <div class="absolute bottom-3 left-3 bg-white/90 backdrop-blur px-3 py-1 rounded-md text-xs text-gray-700 shadow-sm flex justify-between w-[85%]">
+      <span>📁 {{ latest_image }}</span>
+      <a href="{{ url_for('results') }}" class="text-emerald-600 hover:underline">View →</a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- 🌳 Footer -->
+<footer class="fixed bottom-0 left-0 w-full text-center py-3 text-gray-600 text-sm bg-white/40 backdrop-blur-lg border-t border-emerald-100">
+  © 2025 AI-Driven Archaeological Mapping Platform — Inspired by Nature 🌿
+</footer>
+
+<!-- 🌿 Styling -->
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(180deg, #e9fce7 0%, #f5fff8 60%, #ffffff 100%);
+}
+
+/* Scene background */
+.nature-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(180deg, #c8f8d2 0%, #ecfdf5 50%, #ffffff 100%);
+  overflow: hidden;
+}
+
+
+/* Floating particles */
+.particle {
+  position: absolute;
+  bottom: -10px;
+  left: 20%;
+  width: 10px;
+  height: 10px;
+  background: rgba(34, 197, 94, 0.2);
+  border-radius: 50%;
+  animation: floatUp 12s linear infinite;
+}
+.particle.delay1 { left: 50%; animation-delay: 4s; }
+.particle.delay2 { left: 75%; animation-delay: 8s; }
+
+/* Layout adjustments */
+.hero-section {
+  height: calc(100vh - 70px); /* leaves room for footer */
+}
+
+/* Animations */
+@keyframes shimmer {
+  from { transform: scale(1); opacity: 0.9; }
+  to { transform: scale(1.1); opacity: 1; }
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(1); opacity: 0.8; }
+  50% { transform: translateY(-50vh) scale(1.2); opacity: 0.6; }
+  100% { transform: translateY(-100vh) scale(0.8); opacity: 0; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-fadeIn { animation: fadeIn 1s ease-out forwards; }
+.animate-slideInRight { animation: slideInRight 1s ease-out forwards; }
+</style>
+
+{% endblock %}

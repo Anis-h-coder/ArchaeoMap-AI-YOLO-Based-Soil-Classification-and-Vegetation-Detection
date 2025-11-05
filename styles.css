@@ -1,0 +1,219 @@
+/* ======= GLOBAL STYLES ======= */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inter:wght@300;400;500&display=swap');
+
+:root {
+  --emerald: #00c896;
+  --emerald-light: #a4f9c8;
+  --emerald-dark: #004d40;
+  --bg-dark: #0a0f0d;
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.15);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: white;
+  background: radial-gradient(circle at top, #002b20 0%, #000000 100%);
+  overflow-x: hidden;
+}
+
+/* ======= NAVBAR ======= */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 3rem;
+  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid var(--glass-border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+header h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.8rem;
+  color: var(--emerald);
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+nav a {
+  color: #e8fff2;
+  margin-left: 2rem;
+  text-decoration: none;
+  transition: 0.3s;
+  font-weight: 500;
+}
+
+nav a:hover {
+  color: var(--emerald-light);
+  text-shadow: 0 0 10px var(--emerald);
+}
+
+/* ======= HERO SECTION ======= */
+.hero {
+  position: relative;
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.hero h2 {
+  font-size: 3rem;
+  color: var(--emerald-light);
+  font-family: 'Montserrat', sans-serif;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  max-width: 600px;
+  opacity: 0.9;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0,200,150,0.05), transparent 70%);
+  animation: rotate 40s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ======= BUTTONS ======= */
+.btn {
+  background: linear-gradient(135deg, var(--emerald), var(--emerald-light));
+  color: #002b20;
+  padding: 0.75rem 1.8rem;
+  border-radius: 50px;
+  border: none;
+  font-weight: 600;
+  font-family: 'Montserrat';
+  cursor: pointer;
+  transition: 0.3s ease;
+  box-shadow: 0 0 15px rgba(0,200,150,0.4);
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(0,200,150,0.7);
+}
+
+/* ======= UPLOAD & CARDS ======= */
+.glass-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 2rem;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 25px rgba(0,200,150,0.2);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 40px rgba(0,200,150,0.4);
+}
+
+/* ======= FORM ======= */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+}
+
+input[type="file"], select {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid var(--emerald);
+  border-radius: 10px;
+  padding: 0.8rem;
+  width: 100%;
+  color: #d8fff2;
+}
+
+input[type="file"]::file-selector-button {
+  background: var(--emerald);
+  border: none;
+  color: #002b20;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* ======= GALLERY ======= */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.gallery img {
+  width: 100%;
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 20px rgba(0,200,150,0.3);
+}
+
+.gallery img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 40px rgba(0,200,150,0.6);
+}
+
+/* ======= FOOTER ======= */
+footer {
+  text-align: center;
+  padding: 2rem;
+  opacity: 0.7;
+  border-top: 1px solid var(--glass-border);
+  margin-top: 2rem;
+}
+
+/* ======= PARTICLE BACKGROUND ======= */
+#particle-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: var(--emerald-light);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: float 10s infinite linear;
+}
+
+@keyframes float {
+  from { transform: translateY(0px) scale(1); opacity: 0.4; }
+  to { transform: translateY(-800px) scale(0.5); opacity: 0; }
+}

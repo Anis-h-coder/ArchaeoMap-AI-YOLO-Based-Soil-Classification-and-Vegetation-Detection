@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ArchaeoMap AI — Intelligent Aerial Analysis</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            inter: ['Inter', 'system-ui'],
+            montserrat: ['Montserrat']
+          },
+          colors: {
+            primary: { 50:'#f0f7ff',100:'#d0e4ff',500:'#3b82f6',700:'#1d4ed8' },
+            neutral: { 100:'#f8fafc',200:'#f1f5f9',700:'#334155' }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background: #f8fafc;
+      color: #1e293b;
+      overflow-x: hidden;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 1rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    /* 🌿 Leaf Layer */
+    #leaf-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 2;
+    }
+
+    /* 🌿 Each Leaf */
+    .leaf {
+      position: absolute;
+      font-size: 2.2rem;
+      opacity: 0.9;
+      animation: fallLeaf linear forwards;
+    }
+
+    @keyframes fallLeaf {
+      0% {
+        transform: translateY(-10vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% { opacity: 1; }
+      100% {
+        transform: translateY(120vh) rotate(150deg);
+        opacity: 0;
+      }
+    }
+
+    /* Default animations */
+    .fade-in-up { opacity:0; transform:translateY(40px); animation:fadeInUp 1.2s ease-out forwards; }
+    @keyframes fadeInUp { 0%{opacity:0;transform:translateY(40px);} 100%{opacity:1;transform:translateY(0);} }
+  </style>
+
+  {% block styles %}{% endblock %}
+</head>
+
+<body class="font-inter min-h-screen flex flex-col">
+
+  <!-- ✅ 🌿 Leaf Animation Layer -->
+  <div id="leaf-layer"></div>
+
+  <header class="w-full bg-white/70 backdrop-blur border-b border-gray-200 fixed top-0 left-0 z-50 fade-in-down">
+    <div class="max-w-7xl mx-auto px-8 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3 slide-in-left">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center font-bold text-white text-lg shadow-sm">A</div>
+        <div>
+          <h1 class="font-montserrat font-semibold text-gray-800 text-lg">ArchaeoMap AI</h1>
+          <p class="text-xs text-gray-500 tracking-wide">Aerial Insight & Mapping</p>
+        </div>
+      </div>
+
+      <nav class="flex items-center gap-6 text-sm font-extrabold slide-in-right">
+        <a href="{{ url_for('index') }}" class="hover:text-blue-600 transition">Home</a>
+        <a href="{{ url_for('about') }}" class="hover:text-blue-600 transition">About</a>
+        <a href="{{ url_for('upload') }}" class="hover:text-blue-600 transition">Detection</a>
+        <a href="{{ url_for('compare') }}" class="hover:text-blue-600 transition">Compare</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="flex-1 flex items-center justify-center pt-24 pb-16 px-6 fade-in-up">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="w-full border-t border-gray-200 bg-white text-sm text-gray-600 py-4 fade-in">
+    <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+      <p>© 2025 <span class="text-blue-600 font-semibold">ArchaeoMap AI</span></p>
+      <p class="text-xs text-gray-500">Built with Flask • Intelligent Visual Analysis</p>
+    </div>
+  </footer>
+
+  <!-- ✅ Leaf Animation Script -->
+  <script>
+    function spawnLeafEmoji() {
+        const maxLeaves = 3;
+        if (document.querySelectorAll(".leaf").length >= maxLeaves) return;
+
+        const leaf = document.createElement("div");
+        leaf.classList.add("leaf");
+        leaf.textContent = "🌿";
+
+        leaf.style.left = Math.random() * 100 + "vw";
+        leaf.style.animationDuration = (8 + Math.random() * 5) + "s";
+
+        document.getElementById("leaf-layer").appendChild(leaf);
+
+        setTimeout(() => leaf.remove(), 15000);
+    }
+
+    setInterval(spawnLeafEmoji, 5000);
+    spawnLeafEmoji();
+  </script>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>
